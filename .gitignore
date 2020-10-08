@@ -1,0 +1,8 @@
+# .gitignore
+# -----------------------------------------------------------------------------
+
+# I let each user to determine which IDE use
+.project
+
+
+# end of file
