@@ -10,9 +10,9 @@
 "use strict";
 
 var filename1;
-filename1="../../phototeque/P1080641.JPG";
+filename1="/home/dumdrap/Documents/manu/esus/phototeque/P1080642.JPG";
 var filename2;
-filename2="../src/image_out.jpeg";
+filename2="/home/dumdrap/Documents/manu/esus/esus_src/src/tests/image_out.jpeg";
 
 var tx, ty;
 tx = 0;
@@ -28,6 +28,7 @@ var rect1, rect2;
 var ctx1, ctx2;
 var cursorX, cursorY;
 var img1, img2;
+
 
 function updateImg() {
   ctx1.drawImage(img1, tx, ty, rect1.width * zx, rect1.height *zy, 0, 0, rect1.width, rect1.height);
@@ -55,6 +56,12 @@ function updateImg() {
 };
 
 function draw() {
+  /* search filename */
+  const url = new URL(document.URL);
+
+  document.getElementById("textZone").textContent = url.search;
+  
+  
   var canvas1 = document.getElementById('imageView_1');
   // rect est un objet DOMRect avec 6 propriétés
   // left, top, right, bottom, width, height
@@ -63,6 +70,7 @@ function draw() {
   ctx1.imageSmoothingEnabled = false;
   ctx1.strokeStyle = '#FFFFFF';
   
+
   var canvas2 = document.getElementById('imageView_2');
   //rect est un objet DOMRect avec 6 propriétés
   // left, top, right, bottom, width, height
@@ -80,6 +88,7 @@ function draw() {
     ctx1.drawImage(img1, tx, ty, rect1.width, rect1.height, 0, 0, rect1.width, rect1.height);
 
     console.log("done");
+    document.getElementById("textZone").textContent = "image 1 loaded"
   }, false);
   img1.src = filename1; // définit le chemin de la source
   
@@ -101,6 +110,10 @@ function draw() {
     startX = e.clientX;
     startY = e.clientY;
     isMove = true;
+    
+    document.getElementById("textZone").textContent = 
+      startX.toString() + ";" + startY.toString();
+
   });
   
   canvas2.addEventListener('mousedown', e => {
@@ -206,12 +219,14 @@ function draw() {
   
 }
 
+  
     </script>
 </head>
 
 <body onload="draw();">
   <canvas id="imageView_1" width="600" height="600" tabindex='1'></canvas>
   <canvas id="imageView_2" width="600" height="600" tabindex='1'></canvas>
+  <div id="textZone">hello</div>
 </body>
 </html>
 
