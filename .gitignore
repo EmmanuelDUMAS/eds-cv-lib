@@ -14,5 +14,6 @@ __pycache__
 # I let each user to determine which IDE use
 .project
 .pydevproject
+.settings
 
 # end of file
