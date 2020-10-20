@@ -33,10 +33,12 @@
 #
 # -----------------------------------------------------------------------------
 # 15/10/2020 Creation ................................................ E. Dumas
+# 20/10/2020 Set file as args ........................................ E. Dumas
 # -----------------------------------------------------------------------------
 
 import argparse
 import http.server
+import os
 import socketserver
 import subprocess
 from functools import partial
@@ -60,17 +62,27 @@ def basicHttpServer():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("files", nargs='*')
+    parser.add_argument("-d", action="store_true")
     args = parser.parse_args()
-    # print("args=", args)
+    print("args=", args)
     # print("args.files=", args.files)
     #    ->args.files= ['f1', 'f2', 'f3']
     
     pserv = Process(target=basicHttpServer)
     pserv.start()
     
-    pLauncher = subprocess.run( [ "firefox",
-                                  "http://127.0.0.1:8008/home/manu/esus/eds-cv-lib/tools/load_img.html?f1=%s" % args.files[0],
-                                ])
+    secArg = "http://127.0.0.1:8008/home/manu/esus/eds-cv-lib/tools/load_img.html"
+    if len(args.files) == 1:
+        secArg += "?f1=%s" % (os.getcwd() + "/" + args.files[0])
+    elif len(args.files) >= 2:
+        secArg += "?f1=%s&f2=%s" % (os.getcwd() + "/" + args.files[0],
+                                    os.getcwd() + "/" + args.files[1])
+    
+    lArgs = [ "firefox", secArg ]
+    if args.d:
+        lArgs.append("-jsconsole")
+    
+    pLauncher = subprocess.run( lArgs )
     
     pserv.join()
     
