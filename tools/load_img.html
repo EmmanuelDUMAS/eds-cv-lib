@@ -144,9 +144,17 @@ function draw() {
     startY = e.clientY;
     isMove = true;
     
-    document.getElementById("textZone").textContent = 
-      startX.toString() + ";" + startY.toString();
+    /* document.getElementById("textZone").textContent = 
+      startX.toString() + ";" + startY.toString(); */
 
+    var myImageData = ctx1.getImageData(e.offsetX, e.offsetY, 1, 1).data;
+    
+    document.getElementById("textZone").textContent =
+      startX.toString() + ";" + startY.toString() + " : RGBA " +
+      myImageData[0].toString() + "," +
+      myImageData[1].toString() + "," +
+      myImageData[2].toString() + "," +
+      myImageData[3].toString() ;
   });
   
   canvas2.addEventListener('mousedown', e => {
