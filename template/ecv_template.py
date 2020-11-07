@@ -37,13 +37,14 @@
 
 import argparse
 
+
 class EDS_Template():
     """Template for new class
     19/10/2020 Creation
     """
     
     def __init__(self):
-        """ 
+        """
         19/10/2020 Creation
         """
         self.i = 0
