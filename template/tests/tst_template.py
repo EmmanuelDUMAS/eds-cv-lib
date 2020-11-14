@@ -36,7 +36,6 @@
 import unittest
 
 # third party import
-# import cv2
 # import numpy as np
 
 # project import
