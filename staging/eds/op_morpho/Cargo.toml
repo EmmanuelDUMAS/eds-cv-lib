@@ -1,0 +1,20 @@
+#
+
+[package]
+name = "op_morpho"
+version = "0.1.0"
+authors = ["Emmanuel DUMAS <emmanuel.dumas@free.fr>"]
+edition = "2018"
+homepage = "https://github.com/EmmanuelDUMAS/eds-cv-lib"
+license = "BSD like"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[lib]
+name = "eds_cv_lib_morpho"
+path = "ecv_op_morpho.rs"
+
+
+# end of file
