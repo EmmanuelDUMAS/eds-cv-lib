@@ -33,6 +33,7 @@
 # -----------------------------------------------------------------------------
 
 # native python import
+import subprocess
 import unittest
 
 # third party import
@@ -89,9 +90,19 @@ class TST_OpMorpho(unittest.TestCase):
         
         self.commonPart()
         
-        self.ffi.cdef("""void ECV_opMorpho(int32_t arg);""")
+        self.ffi.cdef("""void ECV_opMorpho(
+            uint8_t *pPixelU8,
+            int32_t width,
+            int32_t lineStride,
+            int32_t height
+            );
+        """)
         
-        self.lib.ECV_opMorpho(5)
+        self.pPixel = self.ffi.new("uint8_t[]", 12000)
+        self.pPixel[0] = 10
+        self.pPixel[5] = 1
+        
+        self.lib.ECV_opMorpho(self.pPixel, 100, 120, 100)
     
     def test_Dataset_02(self):
         """call test with data set 02 : ...
@@ -131,9 +142,12 @@ def TST_TestSuite_OpMorpho(testSuite, oneByOne=False):
 # -----------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    testSuite = unittest.TestSuite()
-    TST_TestSuite_OpMorpho(testSuite, oneByOne=False)
-    unittest.TextTestRunner(verbosity=2).run(testSuite)
+    r = subprocess.run(["cargo", "build", "-vv"], cwd="..")
+    # print("r=", r.returncode)
+    if r.returncode == 0:
+        testSuite = unittest.TestSuite()
+        TST_TestSuite_OpMorpho(testSuite, oneByOne=False)
+        unittest.TextTestRunner(verbosity=2).run(testSuite)
 
 
 # end of file
