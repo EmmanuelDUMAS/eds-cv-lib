@@ -19,7 +19,7 @@ pub extern "C" fn ECV_opMorpho(
     ) -> i32
 {
     let aPxIn = unsafe { std::slice::from_raw_parts(pPixelInU8, (lineStride*height) as usize) };
-    let aPxOut = unsafe { std::slice::from_raw_parts(pPixelOutU8, (lineStride*height) as usize) };
+    let aPxOut = unsafe { std::slice::from_raw_parts_mut(pPixelOutU8, (lineStride*height) as usize) };
     
     println!("The value of width is: {}", width);
     println!("The value of lineStride is: {}", lineStride);
