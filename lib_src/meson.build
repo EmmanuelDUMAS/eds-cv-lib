@@ -30,7 +30,14 @@
 # 22/11/2020 Creation ................................................ E. Dumas
 # -----------------------------------------------------------------------------
 
-project('tutorial', 'c')
+
+project(
+    'eds-cv-lib',
+    ['c', 'rust'],
+    version : '0.1',
+)
+
+eds_cv_lib_version = '0.1'
 
 edsCvLibSources = []
 
@@ -39,6 +46,8 @@ subdir('img_op')
 library(
     'eds_cv_lib',
     edsCvLibSources,
+    include_directories : ('.'),
+    version : eds_cv_lib_version,
     install : true,
 )
 
