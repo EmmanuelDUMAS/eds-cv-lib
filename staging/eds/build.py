@@ -36,4 +36,8 @@ import subprocess
 if __name__ == "__main__":
     subprocess.run(["cargo", "build"], cwd="op_morpho")
 
+
+# read :
+# https://git.neosmart.net/mqudsi/meson-rust/src/branch/master/meson.build
+
 # end of file
