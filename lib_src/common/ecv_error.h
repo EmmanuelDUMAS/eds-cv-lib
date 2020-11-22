@@ -1,4 +1,4 @@
-/* ecv_errcode.h
+/* ecv_error.h
  * -----------------------------------------------------------------------------
  * Copyright (c) 2020, Emmanuel DUMAS
  * All rights reserved.
@@ -30,13 +30,25 @@
  * -----------------------------------------------------------------------------
  */
 
-#ifndef _ECV_ERRCODE_H_
-#define _ECV_ERRCODE_H_
+#ifndef _ECV_ERROR_H_
+#define _ECV_ERROR_H_
 
-#include <stdint.h>
+enum {
+  /* by default, "no error" is 0 */
+  eECV_NoError = 0,
 
-typedef int32_t tECV_ErrCode;
+  /* unspecified error
+   * it's recommanded to be more precise
+   */
+  eECV_Error = 1,
 
-#endif /* _ECV_ERRCODE_H_ */
+  eECV_OutOfRange = 2,
+
+
+  /* mark for last error code - don't used */
+  eECV_Last_NoUsed = 999999
+};
+
+#endif /* _ECV_ERROR_H_ */
 
 /* end of file */
