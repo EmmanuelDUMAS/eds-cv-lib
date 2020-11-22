@@ -30,6 +30,36 @@
  * -----------------------------------------------------------------------------
  */
 
+#include <common/ecv_errcode.h>
+#include <common/ecv_error.h>
 
+
+tECV_ErrCode ECV_pPixelU8_Dilate3x3(
+    const uint8_t *pPixelInU8,
+    const int32_t width,
+    const int32_t lineStride,
+    const int32_t height,
+    uint8_t *pPixelOutU8
+)
+{
+  int x,y;
+
+  for(y=1;y<(height-1);y++)
+  {
+    for(x=1;x<(width-1);x++)
+    {
+      int max,ix,iy;
+      max = pPixelInU8[(x-1) + (y-1) * lineStride];
+      for(iy=-1;iy<2;iy++)
+        for(ix=-1;ix<2;ix++)
+          if (pPixelInU8[(x+ix) + (y+iy) * lineStride] > max)
+            max=pPixelInU8[(x+ix) + (y+iy) * lineStride];
+
+      pPixelOutU8[x+y*lineStride] = max;
+    }
+  }
+
+  return eECV_NoError;
+};
 
 /* end of file */
