@@ -30,10 +30,12 @@
 # -----------------------------------------------------------------------------
 # History
 # 22/11/2020 Creation ................................................ E. Dumas
+# 08/12/2020 use now ECV_HOME for search of lib ...................... E. Dumas
 # -----------------------------------------------------------------------------
 
 # native python import
 import cffi
+import os
 import unittest
 
 # third party import
@@ -59,7 +61,7 @@ class TST_Dilate3x3U8(unittest.TestCase):
         """
         print("setup")
         
-        soPath = "../../../../../lib_build/libeds_cv_lib.so"
+        soPath = os.getenv("ECV_HOME") + "/lib_build/libeds_cv_lib.so"
         
         self.ffi = None
         self.ffi = cffi.FFI()
