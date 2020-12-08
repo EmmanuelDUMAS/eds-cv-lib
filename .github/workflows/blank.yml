@@ -38,6 +38,7 @@ jobs:
       - name: Build
         run: |
            sudo apt install meson
+           sudo apt install python3-cffi
            mkdir lib_build
            cd lib_src && python3 build_lib_src.py
 
