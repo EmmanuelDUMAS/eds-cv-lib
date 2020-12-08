@@ -45,7 +45,7 @@ jobs:
       - name: Run test suite
         run: |
           export ECV_HOME=`pwd`
-          cd lib_src && python3 tst_lib_test.py
+          cd lib_src && python3 tst_lib_test_suite.py
           
 
 # end of file
