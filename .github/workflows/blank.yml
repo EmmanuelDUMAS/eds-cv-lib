@@ -37,7 +37,8 @@ jobs:
       # Runs a single command using the runners shell
       - name: Build
         run: |
-           sudo apt install meson python3-cffi
+           # sudo apt install meson python3-cffi
+           python3 -m pip install cffi
            mkdir lib_build
            cd lib_src && python3 build_lib_src.py
 
