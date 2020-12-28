@@ -11,7 +11,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [ master, eds ]
   pull_request:
     branches: [ master ]
 
@@ -37,8 +37,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Build
         run: |
-           sudo apt install meson
-           sudo apt install python3-cffi
+           sudo apt install meson python3-cffi
            mkdir lib_build
            cd lib_src && python3 build_lib_src.py
 
