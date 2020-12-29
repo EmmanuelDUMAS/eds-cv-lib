@@ -34,6 +34,176 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <script>
 "use strict";
 
+class ecv_GlobalTransfo {
+    constructor() {
+        this.tx = 0;
+        this.ty = 0;
+        this.zx = 1;
+        this.zy = 1;
+    }
+}
+
+class ecv_Viewer {
+  
+  constructor(canvasViewId, textId, filename, globalTransfo) {
+    this.canvasViewId = canvasViewId;
+    this.textId = textId;
+    this.filename = filename;
+    this.globalTransfo = globalTransfo;
+    
+    /* internal value */
+    this.startX = 0;
+    this.startY = 0;
+    this.isMove = false;
+  }
+  
+  /* ----------------------------------------------------------------------- */
+  /* set text in status bar */
+  setText(text) {
+    document.getElementById(this.textId).textContent = text;
+  }
+  
+  /* ----------------------------------------------------------------------- */
+  /* update image */
+  updateImg() {
+    console.log( "upateImg() tx=" + 
+                 this.globalTranfso.tx.toString() + " ty=" +
+                 this.globalTranfso.ty.toString() +
+                 ")")
+    this.ctx.drawImage( this.img,
+                        this.globalTranfso.tx, this.globalTranfso.ty,
+                        this.rect.width * this.zx, this.rect.height * this.zy,
+                        0 , 0,
+                        this.rect.width, this.rect.height);
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.cursorX, 0);
+    this.ctx.lineTo(this.cursorX, this.rect.height);
+    this.ctx.stroke();
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, this.cursorY);
+    this.ctx.lineTo(this.rect.width, this.cursorY);
+    this.ctx.stroke();
+  
+  }
+  
+  /* ----------------------------------------------------------------------- */
+  /* handler zoom */
+  zoom(ev, factor) {
+    var px, py;
+    px = this.globalTranfso.tx + this.cursorX * this.zx;
+    py = this.globalTranfso.ty + this.cursorY * this.zy;
+    this.globalTranfso.zx *= factor;
+    this.globalTranfso.zy *= factor;
+    this.globalTranfso.tx = px - this.cursorX * this.zx;
+    this.globalTranfso.ty = py - this.cursorY * this.zy;
+    this.updateImg();
+  }
+  
+  /* ----------------------------------------------------------------------- */
+  /* handler on load image */
+  onLoadImage(ev) {
+    this.ctx.drawImage( this.img,
+                        this.globalTranfso.tx, this.globalTranfso.ty,
+                        this.rect.width, this.rect.height,
+                        0 , 0 , this.rect.width, this.rect.height);
+    this.setText("image loaded");
+  }
+  
+  /* ----------------------------------------------------------------------- */
+  /* handler on mouse down */
+  onMouseDown(ev) {
+    this.startX = ev.clientX;
+    this.startY = ev.clientY;
+    this.isMove = true;
+    
+    var myImageData = this.ctx.getImageData(ev.offsetX, ev.offsetY, 1, 1).data;
+    
+    this.setText(
+        this.startX.toString() + ";" + this.startY.toString() + " : RGBA " +
+        myImageData[0].toString() + "," +
+        myImageData[1].toString() + "," +
+        myImageData[2].toString() + "," +
+        myImageData[3].toString()
+    );
+  }
+  
+  /* ----------------------------------------------------------------------- */
+  /* handler on mouse up */
+  onMouseUp(ev) {
+    this.isMove = false;
+    this.cursorX = ev.clientX - this.rect.left;
+    this.cursorY = ev.clientY - this.rect.top;
+    this.updateImg();
+  }
+  
+  /* ----------------------------------------------------------------------- */
+  /* handler on mouse move */
+  onMouseMove(ev) {
+    this.mouseX = ev.clientX - this.rect.left;
+    this.mouseY = ev.clientY - this.rect.top;
+    if (this.isMove === true) {
+      this.globalTranfso.tx += (this.startX - this.mouseX) * this.zx;
+      this.globalTranfso.ty += (this.startY - this.mouseY) * this.zy;
+      this.updateImg();
+      this.startX = this.mouseX;
+      this.startY = this.mouseY;
+      this.cursorX = this.mouseX;
+      this.cursorY = this.mouseY;
+    }
+  }
+  
+  /* ----------------------------------------------------------------------- */
+  /* handler on keyDown */
+  onKeyDown(ev) {
+    console.log("keyCode=" + ev.keyCode.toString());
+    if ( (ev.keyCode == 87) || (ev.keyCode == 107) ) /* "w" or "+" */
+      {
+        console.log("w or +");
+        this.zoom(ev, 1.1);
+      }
+    else if ( (ev.keyCode == 88) || (ev.keyCode == 109) ) /* "x"  or "-" */
+      {
+        console.log("x or -");
+        this.zoom(ev, 1.0/1.1);
+      };
+  }
+  
+  /* ----------------------------------------------------------------------- */
+  /* handler on keyDown */
+  onWheel(ev) {
+    // console.log("ev.deltaY=" + ev.deltaY.toString());
+    this.zoom(ev, 1.0 + ev.deltaY/30);
+  }
+  
+  /* ----------------------------------------------------------------------- */
+  /* init canvas and load image */
+  initImage() {
+    // this.setText("call initImage()");
+    
+    this.canvas = document.getElementById(this.canvasViewId);
+    // rect est un objet DOMRect avec 6 propriétés
+    // left, top, right, bottom, width, height
+    this.rect = this.canvas.getBoundingClientRect()
+    this.ctx = this.canvas.getContext("2d");
+    this.ctx.imageSmoothingEnabled = false;
+    this.ctx.strokeStyle = "#FFFFFF";
+    
+    this.img = new Image();
+    this.img.addEventListener("load", ev => this.onLoadImage(ev), false);
+    this.img.src = this.filename; // define source of image
+    
+    /* set event handler */
+    this.canvas.addEventListener("mousedown", ev => this.onMouseDown(ev), false);
+    this.canvas.addEventListener("mouseup"  , ev => this.onMouseUp(ev)  , false);
+    this.canvas.addEventListener('mousemove', ev => this.onMouseMove(ev), false);
+    this.canvas.addEventListener("keydown"  , ev => this.onKeyDown(ev)  , false);
+    this.canvas.addEventListener("wheel"    , ev => this.onWheel(ev)    , false);
+  }
+}
+
+
 var filename1;
 filename1=null;
 var filename2;
@@ -56,9 +226,9 @@ var img1, img2;
 
 
 function updateImg() {
+  if (false) {
   ctx1.drawImage(img1, tx, ty, rect1.width * zx, rect1.height *zy, 0, 0, rect1.width, rect1.height);
-  ctx2.drawImage(img2, tx, ty, rect2.width * zx, rect2.height *zy, 0, 0, rect2.width, rect2.height);
-
+  
   ctx1.beginPath();
   ctx1.moveTo(cursorX, 0);
   ctx1.lineTo(cursorX, rect1.height);
@@ -68,6 +238,10 @@ function updateImg() {
   ctx1.moveTo(0, cursorY);
   ctx1.lineTo(rect1.width, cursorY);
   ctx1.stroke();
+  
+  }
+  
+  ctx2.drawImage(img2, tx, ty, rect2.width * zx, rect2.height *zy, 0, 0, rect2.width, rect2.height);
   
   ctx2.beginPath();
   ctx2.moveTo(cursorX, 0);
@@ -84,17 +258,25 @@ function draw() {
   /* search filename */
   const url = new URL(document.URL);
 
-  document.getElementById("textZone").textContent = url.search;
+  // document.getElementById("textZone").textContent = url.search;
   
   var params = url.searchParams;
   var f1 = params.get('f1');
   var f2 = params.get('f2');
+  
+  document.getElementById("f1").textContent = f1;
+  document.getElementById("f2").textContent = f2;
   
   console.log("f1=" + f1);
   console.log("f2=" + f2);
   filename1 = f1;
   filename2 = f2;
   
+  var globalTransfo;
+  globalTransfo = new ecv_GlobalTransfo();
+  
+  if (false)
+  {
   var canvas1 = document.getElementById('imageView_1');
   // rect est un objet DOMRect avec 6 propriétés
   // left, top, right, bottom, width, height
@@ -102,8 +284,11 @@ function draw() {
   ctx1 = canvas1.getContext('2d');
   ctx1.imageSmoothingEnabled = false;
   ctx1.strokeStyle = '#FFFFFF';
+  }
   
-
+  var view1 = new ecv_Viewer("imageView_1", "textZone_1", f1, globalTransfo);
+  view1.initImage();
+  
   var canvas2 = document.getElementById('imageView_2');
   //rect est un objet DOMRect avec 6 propriétés
   // left, top, right, bottom, width, height
@@ -112,6 +297,7 @@ function draw() {
   ctx2.imageSmoothingEnabled = false;
   ctx2.strokeStyle = '#FFFFFF';
   
+  if (false) {
   img1 = new Image();   // Crée un nouvel élément img
   img1.addEventListener('load', function() {
     // exécute les instructions drawImage ici
@@ -124,6 +310,7 @@ function draw() {
     document.getElementById("textZone").textContent = "image 1 loaded"
   }, false);
   img1.src = filename1; // définit le chemin de la source
+  }
   
   img2 = new Image();   // Crée un nouvel élément img
   img2.addEventListener('load', function() {
@@ -138,7 +325,7 @@ function draw() {
   img2.src = filename2; // définit le chemin de la source
   
 
-  
+  if (false) {
   canvas1.addEventListener('mousedown', e => {
     startX = e.clientX;
     startY = e.clientY;
@@ -156,13 +343,15 @@ function draw() {
       myImageData[2].toString() + "," +
       myImageData[3].toString() ;
   });
+  }
   
   canvas2.addEventListener('mousedown', e => {
     startX = e.clientX;
     startY = e.clientY;
     isMove = true;
   });
-   
+  
+  if (false) {
   canvas1.addEventListener('mouseup', e => {
     isMove = false;
     cursorX = e.clientX - rect1.left;
@@ -170,6 +359,8 @@ function draw() {
     updateImg();
     
   });
+  }
+  
   canvas2.addEventListener('mouseup', e => {
     isMove = false;
     cursorX = e.clientX - rect2.left;
@@ -178,6 +369,7 @@ function draw() {
     
   });
   
+  if (false) {
   canvas1.addEventListener('mousemove', e => {
     mouseX = e.clientX - rect1.left;
     mouseY = e.clientY - rect1.top;
@@ -195,25 +387,27 @@ function draw() {
       
     }
   });
+  }
   
   canvas2.addEventListener('mousemove', e => {
-	    mouseX = e.clientX - rect2.left;
-	    mouseY = e.clientY - rect2.top;
-	    if (isMove === true) {
-	      tx += (startX - mouseX) * zx;
-	      ty += (startY - mouseY) * zy;
-	      // ctx1.drawImage(img1, tx, ty, rect1.width * zx, rect1.height *zy, 0, 0, rect1.width, rect1.height);
-	      // ctx2.drawImage(img2, tx, ty, rect2.width * zx, rect2.height *zy, 0, 0, rect2.width, rect2.height);
-	      updateImg();
-	      startX = mouseX;
-	      startY = mouseY;
-	      
-	      cursorX = mouseX;
-	      cursorY = mouseY;
-	      
-	    }
-	  });
+        mouseX = e.clientX - rect2.left;
+        mouseY = e.clientY - rect2.top;
+        if (isMove === true) {
+          tx += (startX - mouseX) * zx;
+          ty += (startY - mouseY) * zy;
+          // ctx1.drawImage(img1, tx, ty, rect1.width * zx, rect1.height *zy, 0, 0, rect1.width, rect1.height);
+          // ctx2.drawImage(img2, tx, ty, rect2.width * zx, rect2.height *zy, 0, 0, rect2.width, rect2.height);
+          updateImg();
+          startX = mouseX;
+          startY = mouseY;
+          
+          cursorX = mouseX;
+          cursorY = mouseY;
+          
+        }
+      });
   
+  if (false) {
   canvas1.addEventListener("keydown", e => {
    // if (event.isComposing || event.keyCode === 229) {
    console.log("keyCode=" + e.keyCode.toString());
@@ -235,28 +429,29 @@ function draw() {
    // ctx2.drawImage(img2, tx, ty, rect2.width * zx, rect2.height *zy, 0, 0, rect2.width, rect2.height);
    updateImg();
   });
+  }
   
   canvas2.addEventListener("keydown", e => {
-	   // if (event.isComposing || event.keyCode === 229) {
-	   console.log("keyCode=" + e.keyCode.toString());
-	   var px, py;
-	   px = tx + cursorX * zx;
-	   py = ty + cursorY * zy;
-	   if (e.keyCode == 87) {
-	     zx *= 1.1;
-	     zy *= 1.1;
-	     }
-	   else if (e.keyCode == 88) {
-	     zx /= 1.1;
-	     zy /= 1.1;
-	     };
-	   console.log("mouse " + cursorX.toString() + " " + cursorY.toString());
-	   tx = px - cursorX * zx;
-	   ty = py - cursorY * zy;
-	   // ctx1.drawImage(img1, tx, ty, rect1.width * zx, rect1.height *zy, 0, 0, rect1.width, rect1.height);
-	   // ctx2.drawImage(img2, tx, ty, rect2.width * zx, rect2.height *zy, 0, 0, rect2.width, rect2.height);
-	   updateImg();
-	  });
+       // if (event.isComposing || event.keyCode === 229) {
+       console.log("keyCode=" + e.keyCode.toString());
+       var px, py;
+       px = tx + cursorX * zx;
+       py = ty + cursorY * zy;
+       if (e.keyCode == 87) {
+         zx *= 1.1;
+         zy *= 1.1;
+         }
+       else if (e.keyCode == 88) {
+         zx /= 1.1;
+         zy /= 1.1;
+         };
+       console.log("mouse " + cursorX.toString() + " " + cursorY.toString());
+       tx = px - cursorX * zx;
+       ty = py - cursorY * zy;
+       // ctx1.drawImage(img1, tx, ty, rect1.width * zx, rect1.height *zy, 0, 0, rect1.width, rect1.height);
+       // ctx2.drawImage(img2, tx, ty, rect2.width * zx, rect2.height *zy, 0, 0, rect2.width, rect2.height);
+       updateImg();
+      });
   
 }
 
@@ -265,9 +460,19 @@ function draw() {
 </head>
 
 <body onload="draw();">
-  <canvas id="imageView_1" width="600" height="600" tabindex='1'></canvas>
-  <canvas id="imageView_2" width="600" height="600" tabindex='1'></canvas>
-  <div id="textZone">hello</div>
+  <table style="border=0px">
+    <tr><th colspan="2">EDS Img Viewer</th></tr>
+    <tr><td id="f1"></td><td id="f2"></td></tr>
+    <tr>
+      <td style="border: 1px solid black">
+        <canvas id="imageView_1" width="600" height="600" tabindex='1'></canvas>
+      </td>
+      <td style="border: 1px solid black">
+        <canvas id="imageView_2" width="600" height="600" tabindex='1'></canvas>
+      </td>
+    </tr>
+    <tr><td id="textZone_1">just started</td><td id="textZone_2">...</td></tr>
+  </table>
 </body>
 </html>
 
