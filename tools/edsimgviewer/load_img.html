@@ -25,6 +25,10 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+===============================================================================
+History
+29/12/2020 First operational version ................................. E. Dumas
+===============================================================================
 -->
 <head>
     <meta charset="UTF-8">
@@ -34,22 +38,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <script>
 "use strict";
 
-class ecv_GlobalTransfo {
+class ecv_GlobalInfo {
     constructor() {
         this.tx = 0;
         this.ty = 0;
         this.zx = 1;
         this.zy = 1;
+        
+        this.cursorX = 100;
+        this.cursorY = 100;
+        
+        this.view1 = null;
+        this.view2 = null;
     }
 }
 
 class ecv_Viewer {
   
-  constructor(canvasViewId, textId, filename, globalTransfo) {
+  constructor(canvasViewId, textId, filename, globalInfo) {
     this.canvasViewId = canvasViewId;
     this.textId = textId;
     this.filename = filename;
-    this.globalTransfo = globalTransfo;
+    this.globalInfo = globalInfo;
     
     /* internal value */
     this.startX = 0;
@@ -64,60 +74,90 @@ class ecv_Viewer {
   }
   
   /* ----------------------------------------------------------------------- */
-  /* update image */
-  updateImg() {
-    console.log( "upateImg() tx=" + 
-                 this.globalTranfso.tx.toString() + " ty=" +
-                 this.globalTranfso.ty.toString() +
-                 ")")
+  /* update one image */
+  updateOneImage() {
+    /* console.log( "upateImg() tx=" + 
+                 this.globalInfo.tx.toString() + " ty=" +
+                 this.globalInfo.ty.toString() +
+                 ")"); */
     this.ctx.drawImage( this.img,
-                        this.globalTranfso.tx, this.globalTranfso.ty,
-                        this.rect.width * this.zx, this.rect.height * this.zy,
+                        this.globalInfo.tx, this.globalInfo.ty,
+                        this.rect.width * this.globalInfo.zx, this.rect.height * this.globalInfo.zy,
                         0 , 0,
                         this.rect.width, this.rect.height);
     
+    var myImageData = this.ctx.getImageData( this.globalInfo.cursorX,
+                                             this.globalInfo.cursorY,
+                                             1, 1).data;
+    
+    this.setText(
+         this.globalInfo.cursorX.toString() + ";" +
+         this.globalInfo.cursorY.toString() + " : RGBA " +
+         myImageData[0].toString() + "," +
+         myImageData[1].toString() + "," +
+         myImageData[2].toString() + "," +
+         myImageData[3].toString()
+    );
+    
     this.ctx.beginPath();
-    this.ctx.moveTo(this.cursorX, 0);
-    this.ctx.lineTo(this.cursorX, this.rect.height);
+    this.ctx.moveTo(this.globalInfo.cursorX, 0);
+    this.ctx.lineTo(this.globalInfo.cursorX, this.rect.height);
     this.ctx.stroke();
     
     this.ctx.beginPath();
-    this.ctx.moveTo(0, this.cursorY);
-    this.ctx.lineTo(this.rect.width, this.cursorY);
+    this.ctx.moveTo(0, this.globalInfo.cursorY);
+    this.ctx.lineTo(this.rect.width, this.globalInfo.cursorY);
     this.ctx.stroke();
-  
+    
+  }
+  /* ----------------------------------------------------------------------- */
+  /* update all images */
+  updateAllImages() {
+    if (this.globalInfo.view1 != null)
+      {
+         this.globalInfo.view1.updateOneImage();
+      }
+    
+    if (this.globalInfo.view2 != null)
+      {
+         this.globalInfo.view2.updateOneImage();
+      }
   }
   
   /* ----------------------------------------------------------------------- */
   /* handler zoom */
   zoom(ev, factor) {
     var px, py;
-    px = this.globalTranfso.tx + this.cursorX * this.zx;
-    py = this.globalTranfso.ty + this.cursorY * this.zy;
-    this.globalTranfso.zx *= factor;
-    this.globalTranfso.zy *= factor;
-    this.globalTranfso.tx = px - this.cursorX * this.zx;
-    this.globalTranfso.ty = py - this.cursorY * this.zy;
-    this.updateImg();
+    px = this.globalInfo.tx + this.globalInfo.cursorX * this.globalInfo.zx;
+    py = this.globalInfo.ty + this.globalInfo.cursorY * this.globalInfo.zy;
+    this.globalInfo.zx *= factor;
+    this.globalInfo.zy *= factor;
+    this.globalInfo.tx = px - this.globalInfo.cursorX * this.globalInfo.zx;
+    this.globalInfo.ty = py - this.globalInfo.cursorY * this.globalInfo.zy;
+    this.updateAllImages();
   }
   
   /* ----------------------------------------------------------------------- */
   /* handler on load image */
   onLoadImage(ev) {
-    this.ctx.drawImage( this.img,
-                        this.globalTranfso.tx, this.globalTranfso.ty,
+    /* this.ctx.drawImage( this.img,
+                        this.globalInfo.tx, this.globalInfo.ty,
                         this.rect.width, this.rect.height,
-                        0 , 0 , this.rect.width, this.rect.height);
+                        0 , 0 , this.rect.width, this.rect.height); */
+    this.updateOneImage();
     this.setText("image loaded");
   }
   
   /* ----------------------------------------------------------------------- */
   /* handler on mouse down */
   onMouseDown(ev) {
-    this.startX = ev.clientX;
-    this.startY = ev.clientY;
+    this.startX = ev.clientX - this.rect.left;
+    this.startY = ev.clientY - this.rect.top;
+    this.globalInfo.cursorX = ev.clientX - this.rect.left;
+    this.globalInfo.cursorY = ev.clientY - this.rect.top;
     this.isMove = true;
     
+    /*
     var myImageData = this.ctx.getImageData(ev.offsetX, ev.offsetY, 1, 1).data;
     
     this.setText(
@@ -126,16 +166,17 @@ class ecv_Viewer {
         myImageData[1].toString() + "," +
         myImageData[2].toString() + "," +
         myImageData[3].toString()
-    );
+    ); */
+    this.updateAllImages();
   }
   
   /* ----------------------------------------------------------------------- */
   /* handler on mouse up */
   onMouseUp(ev) {
     this.isMove = false;
-    this.cursorX = ev.clientX - this.rect.left;
-    this.cursorY = ev.clientY - this.rect.top;
-    this.updateImg();
+    this.globalInfo.cursorX = ev.clientX - this.rect.left;
+    this.globalInfo.cursorY = ev.clientY - this.rect.top;
+    this.updateAllImages();
   }
   
   /* ----------------------------------------------------------------------- */
@@ -144,13 +185,13 @@ class ecv_Viewer {
     this.mouseX = ev.clientX - this.rect.left;
     this.mouseY = ev.clientY - this.rect.top;
     if (this.isMove === true) {
-      this.globalTranfso.tx += (this.startX - this.mouseX) * this.zx;
-      this.globalTranfso.ty += (this.startY - this.mouseY) * this.zy;
-      this.updateImg();
+      this.globalInfo.tx += (this.startX - this.mouseX) * this.globalInfo.zx;
+      this.globalInfo.ty += (this.startY - this.mouseY) * this.globalInfo.zy;
+      this.updateAllImages();
       this.startX = this.mouseX;
       this.startY = this.mouseY;
-      this.cursorX = this.mouseX;
-      this.cursorY = this.mouseY;
+      this.globalInfo.cursorX = this.mouseX;
+      this.globalInfo.cursorY = this.mouseY;
     }
   }
   
@@ -272,8 +313,8 @@ function draw() {
   filename1 = f1;
   filename2 = f2;
   
-  var globalTransfo;
-  globalTransfo = new ecv_GlobalTransfo();
+  var globalInfo;
+  globalInfo = new ecv_GlobalInfo();
   
   if (false)
   {
@@ -286,9 +327,11 @@ function draw() {
   ctx1.strokeStyle = '#FFFFFF';
   }
   
-  var view1 = new ecv_Viewer("imageView_1", "textZone_1", f1, globalTransfo);
-  view1.initImage();
+  globalInfo.view1 = new ecv_Viewer("imageView_1", "textZone_1", f1, globalInfo);
+  globalInfo.view1.initImage();
   
+  if (false)
+  {
   var canvas2 = document.getElementById('imageView_2');
   //rect est un objet DOMRect avec 6 propriétés
   // left, top, right, bottom, width, height
@@ -296,6 +339,11 @@ function draw() {
   ctx2 = canvas2.getContext('2d');
   ctx2.imageSmoothingEnabled = false;
   ctx2.strokeStyle = '#FFFFFF';
+  }
+  
+  globalInfo.view2 = new ecv_Viewer("imageView_2", "textZone_2", f2, globalInfo);
+  globalInfo.view2.initImage();
+  
   
   if (false) {
   img1 = new Image();   // Crée un nouvel élément img
@@ -312,6 +360,7 @@ function draw() {
   img1.src = filename1; // définit le chemin de la source
   }
   
+  if (false) {
   img2 = new Image();   // Crée un nouvel élément img
   img2.addEventListener('load', function() {
     // exécute les instructions drawImage ici
@@ -323,7 +372,7 @@ function draw() {
     console.log("done");
   }, false);
   img2.src = filename2; // définit le chemin de la source
-  
+  }
 
   if (false) {
   canvas1.addEventListener('mousedown', e => {
@@ -345,11 +394,13 @@ function draw() {
   });
   }
   
+  if (false) {
   canvas2.addEventListener('mousedown', e => {
     startX = e.clientX;
     startY = e.clientY;
     isMove = true;
   });
+  }
   
   if (false) {
   canvas1.addEventListener('mouseup', e => {
@@ -361,6 +412,7 @@ function draw() {
   });
   }
   
+  if (false) {
   canvas2.addEventListener('mouseup', e => {
     isMove = false;
     cursorX = e.clientX - rect2.left;
@@ -368,6 +420,7 @@ function draw() {
     updateImg();
     
   });
+  }
   
   if (false) {
   canvas1.addEventListener('mousemove', e => {
@@ -389,6 +442,7 @@ function draw() {
   });
   }
   
+  if (false) {
   canvas2.addEventListener('mousemove', e => {
         mouseX = e.clientX - rect2.left;
         mouseY = e.clientY - rect2.top;
@@ -406,6 +460,7 @@ function draw() {
           
         }
       });
+  }
   
   if (false) {
   canvas1.addEventListener("keydown", e => {
@@ -431,6 +486,7 @@ function draw() {
   });
   }
   
+  if (false) {
   canvas2.addEventListener("keydown", e => {
        // if (event.isComposing || event.keyCode === 229) {
        console.log("keyCode=" + e.keyCode.toString());
@@ -452,7 +508,7 @@ function draw() {
        // ctx2.drawImage(img2, tx, ty, rect2.width * zx, rect2.height *zy, 0, 0, rect2.width, rect2.height);
        updateImg();
       });
-  
+  }
 }
 
   
