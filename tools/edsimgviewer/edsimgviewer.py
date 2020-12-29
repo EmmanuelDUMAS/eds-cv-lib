@@ -1,3 +1,4 @@
+#! /usr/bin/python3
 # edsimgviewer.py
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------
@@ -34,15 +35,18 @@
 # -----------------------------------------------------------------------------
 # 15/10/2020 Creation ................................................ E. Dumas
 # 20/10/2020 Set file as args ........................................ E. Dumas
+# 29/12/2020 First operational version ............................... E. Dumas
 # -----------------------------------------------------------------------------
 
 import argparse
 import http.server
+# import inspect
 import os
 import socketserver
 import subprocess
 from functools import partial
 from multiprocessing import Process
+
 
 def basicHttpServer():
     """Start a basic HTTP server
@@ -71,7 +75,12 @@ if __name__ == "__main__":
     pserv = Process(target=basicHttpServer)
     pserv.start()
     
-    secArg = "http://127.0.0.1:8008/home/manu/esus/eds-cv-lib/tools/load_img.html"
+    curPath = os.path.normpath( os.path.join( os.getcwd(),
+                                              os.path.dirname(__file__ ) ) )
+    # print("curPath=", curPath)
+    # curPath= /home/xxx/working/eds-cv-lib/tools/edsimgviewer
+    
+    secArg = "http://127.0.0.1:8008" + curPath + "/load_img.html"
     if len(args.files) == 1:
         secArg += "?f1=%s" % (os.getcwd() + "/" + args.files[0])
     elif len(args.files) >= 2:

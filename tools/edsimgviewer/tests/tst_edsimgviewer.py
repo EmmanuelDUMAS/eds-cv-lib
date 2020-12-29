@@ -26,10 +26,11 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-# Template file for EDS-CV-Lib Project - test file
+# ECV Image Viewer
 # -----------------------------------------------------------------------------
 # History
 # 19/10/2020 Creation ................................................ E. Dumas
+# 29/12/2020 First operational version ............................... E. Dumas
 # -----------------------------------------------------------------------------
 
 # native python import
