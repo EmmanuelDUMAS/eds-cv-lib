@@ -1,3 +1,4 @@
+#! /usr/bin/python3
 # build_lib_src.py
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------
@@ -29,13 +30,14 @@
 # Standard lib build
 # -----------------------------------------------------------------------------
 # 22/11/2020 Creation ................................................ E. Dumas
+# 30/12/2020 Improve error code ...................................... E. Dumas
 # -----------------------------------------------------------------------------
 
 import subprocess
 
 if __name__ == "__main__":
-    subprocess.run(["meson", "../lib_src"], cwd="../lib_build")
-    subprocess.run(["ninja"], cwd="../lib_build")
-
+    subprocess.run(["meson", "../lib_src"], cwd="../lib_build"). check_returncode()
+    subprocess.run(["ninja"], cwd="../lib_build"). check_returncode()
+    
 
 # end of file
