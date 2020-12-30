@@ -28,6 +28,7 @@
 # Meson build file for project eds-cv-lib - top file
 # -----------------------------------------------------------------------------
 # 22/11/2020 Creation ................................................ E. Dumas
+# 30/12/2020 Debug for old version of meson .......................... E. Dumas
 # -----------------------------------------------------------------------------
 
 
@@ -46,7 +47,7 @@ subdir('img_op')
 library(
     'eds_cv_lib',
     edsCvLibSources,
-    include_directories : ('.'),
+    include_directories : include_directories('.'),
     version : eds_cv_lib_version,
     install : true,
 )
