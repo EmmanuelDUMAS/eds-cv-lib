@@ -1,3 +1,4 @@
+#! /usr/bin/python3
 # build.py
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------
@@ -31,10 +32,22 @@
 # 14/11/2020 Creation ................................................ E. Dumas
 # -----------------------------------------------------------------------------
 
+import os
 import subprocess
 
+_use_cargo_ = False
+
 if __name__ == "__main__":
-    subprocess.run(["cargo", "build"], cwd="op_morpho")
+    if _use_cargo_:
+        subprocess.run(["cargo", "build"], cwd="op_morpho")
+    else:
+        buildDir = "build"
+        if os.path.isdir(buildDir) is False:
+            os.makedirs(buildDir)
+        
+        subprocess.run(["meson", ".."], cwd=buildDir). check_returncode()
+        subprocess.run(["ninja"], cwd=buildDir). check_returncode()
+    
 
 
 # read :
