@@ -1,6 +1,6 @@
 # .gitignore
 # -----------------------------------------------------------------------------
-# .gitignore for images/
+# .gitignore for images/testimages.org
 # -----------------------------------------------------------------------------
 # History
 # 02/01/2021 Creation ................................................ E. Dumas
@@ -11,6 +11,9 @@
 # file to ignore
 *.tar.bz2
 
+
 5120x2880
+SAMPLING_PATTERNS
+
 
 # end of file
