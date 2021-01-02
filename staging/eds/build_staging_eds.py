@@ -39,7 +39,7 @@ _use_cargo_ = False
 
 if __name__ == "__main__":
     if _use_cargo_:
-        subprocess.run(["cargo", "build"], cwd="op_morpho")
+        subprocess.run(["cargo", "build"], cwd="op_morpho").check_returncode()
     else:
         buildDir = "build"
         if os.path.isdir(buildDir) is False:
@@ -48,7 +48,6 @@ if __name__ == "__main__":
         subprocess.run(["meson", ".."], cwd=buildDir). check_returncode()
         subprocess.run(["ninja"], cwd=buildDir). check_returncode()
     
-
 
 # read :
 # https://git.neosmart.net/mqudsi/meson-rust/src/branch/master/meson.build
