@@ -1,7 +1,8 @@
+#!/usr/bin/python3
 # tst_template.py
 # -*- coding: utf-8 -*-
 # -----------------------------------------------------------------------------
-# Copyright (c) 2020, Emmanuel DUMAS
+# Copyright (c) 2020-2021, Emmanuel DUMAS
 # All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -30,6 +31,7 @@
 # -----------------------------------------------------------------------------
 # History
 # 19/10/2020 Creation ................................................ E. Dumas
+# 02/01/2021 Update copyright ........................................ E. Dumas
 # -----------------------------------------------------------------------------
 
 # native python import
