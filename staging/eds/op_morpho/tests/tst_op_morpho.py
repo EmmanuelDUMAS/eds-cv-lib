@@ -69,6 +69,7 @@ class TST_OpMorpho(unittest.TestCase):
         self.ffi = cffi.FFI()
         
         self.lib = None
+        # self.lib = self.ffi.dlopen("/home/manu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/libstd-f14aca24435a5414.so", flags=self.ffi.RTLD_GLOBAL)
         self.lib = self.ffi.dlopen(soPath, flags=self.ffi.RTLD_GLOBAL)
     
     def tearDown(self):
