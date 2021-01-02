@@ -62,7 +62,8 @@ class TST_OpMorpho(unittest.TestCase):
         """
         print("setup")
         
-        soPath = "../target/debug/libeds_cv_lib_morpho.so"
+        # soPath = "../target/debug/libeds_cv_lib_morpho.so"
+        soPath = "../../build/libeds_cv_lib_staging.so"
         
         self.ffi = None
         self.ffi = cffi.FFI()
@@ -144,8 +145,10 @@ def TST_TestSuite_OpMorpho(testSuite, oneByOne=False):
 # -----------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    r = subprocess.run(["cargo", "build", "-vv"], cwd="..")
-    # print("r=", r.returncode)
+    # r = subprocess.run(["cargo", "build", "-vv"], cwd="..")
+    r = subprocess.run( ["python3", "build_staging_eds.py", ],
+                        cwd="../..")
+    print("r=", r.returncode)
     if r.returncode == 0:
         testSuite = unittest.TestSuite()
         TST_TestSuite_OpMorpho(testSuite, oneByOne=False)
