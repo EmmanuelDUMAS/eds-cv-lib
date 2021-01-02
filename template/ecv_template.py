@@ -1,7 +1,7 @@
 # eds_template.py
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------
-# Copyright (c) 2020, Emmanuel DUMAS
+# Copyright (c) 2020-2021, Emmanuel DUMAS
 # All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
