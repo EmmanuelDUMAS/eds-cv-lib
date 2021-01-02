@@ -25,7 +25,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-# Meson build file for project eds-cv-lib - top file
+# Meson build file for project eds-cv-lib/staging/eds
 # -----------------------------------------------------------------------------
 # 31/12/2020 Creation ................................................ E. Dumas
 # -----------------------------------------------------------------------------
@@ -43,11 +43,15 @@ edsCvLibSources = []
 
 subdir('op_morpho')
 
+# to read :
+# https://jonathanhamberg.com/post/2020-01-12-meson-rust/
+
 library(
     'eds_cv_lib_staging',
     edsCvLibSources,
     include_directories : include_directories('.'),
-    version : eds_cv_lib_version,
+    # version : eds_cv_lib_version,
+    rust_crate_type : 'cdylib',
     install : true,
 )
 
