@@ -1,4 +1,4 @@
-// ecv_op_morpho.rs
+// ecv_template.rs
 // ----------------------------------------------------------------------------
 // Copyright (c) 2020, Emmanuel DUMAS
 // All rights reserved.
@@ -23,20 +23,19 @@
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-// THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.)
+// THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // ----------------------------------------------------------------------------
-// My fist try of image processing
+// Template for new file
 // ----------------------------------------------------------------------------
 // History
-// 14/11/2020 Creation ............................................... E. Dumas
-// 31/12/2020 Extract ECV_opMorphoPureRust() from ECV_opMorpho ....... E. Dumas
+// 31/12/2020 Creation ............................................... E. Dumas
 // ----------------------------------------------------------------------------
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
 
-fn ECV_opMorphoPureRust(
+fn ECV_templatePureRust(
     pPixelInU8: &[u8],
     width: i32,
     lineStride: i32,
@@ -73,7 +72,7 @@ fn ECV_opMorphoPureRust(
     }
     
     return 0;
-}  // ECV_opMorphoPureRust()
+}  // ECV_templatePureRust()
 
 
 
@@ -81,7 +80,7 @@ fn ECV_opMorphoPureRust(
 // for explaination on declaration
 #[no_mangle]
 // https://stackoverflow.com/questions/29182843/pass-a-c-array-to-a-rust-function
-pub extern "C" fn ECV_opMorpho(
+pub extern "C" fn ECV_template(
     pPixelInU8: *const u8,
     width: i32,
     lineStride: i32,
@@ -102,7 +101,7 @@ pub extern "C" fn ECV_opMorpho(
       println!("The value of pixel[5] is: {}", aPxIn[5]);
     }
     
-    err = ECV_opMorphoPureRust( aPxIn, 
+    err = ECV_templatePureRust( aPxIn,
                                 width,
                                 lineStride,
                                 height,
@@ -113,6 +112,6 @@ pub extern "C" fn ECV_opMorpho(
     }
     
     return 0;
-}  // ECV_opMorpho()
+}  // ECV_template()
 
 // end of file

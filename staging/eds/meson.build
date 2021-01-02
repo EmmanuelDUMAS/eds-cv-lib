@@ -1,5 +1,4 @@
-# build.py
-# -*- coding: utf-8 -*-
+# meson.build for eds-cv-lib/staging/eds/
 # -------------------------------------------------------
 # Copyright (c) 2020, Emmanuel DUMAS
 # All rights reserved.
@@ -26,18 +25,34 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-# Shortcut to all build operation
+# Meson build file for project eds-cv-lib/staging/eds
 # -----------------------------------------------------------------------------
-# 14/11/2020 Creation ................................................ E. Dumas
+# 31/12/2020 Creation ................................................ E. Dumas
 # -----------------------------------------------------------------------------
 
-import subprocess
 
-if __name__ == "__main__":
-    subprocess.run(["cargo", "build"], cwd="op_morpho")
+project(
+    'eds-cv-lib-staging',
+    ['c', 'rust'],
+    version : '0.1',
+)
 
+eds_cv_lib_version = '0.1'
 
-# read :
-# https://git.neosmart.net/mqudsi/meson-rust/src/branch/master/meson.build
+edsCvLibSources = []
+
+subdir('op_morpho')
+
+# to read :
+# https://jonathanhamberg.com/post/2020-01-12-meson-rust/
+
+library(
+    'eds_cv_lib_staging',
+    edsCvLibSources,
+    include_directories : include_directories('.'),
+    # version : eds_cv_lib_version,
+    rust_crate_type : 'cdylib',
+    install : true,
+)
 
 # end of file

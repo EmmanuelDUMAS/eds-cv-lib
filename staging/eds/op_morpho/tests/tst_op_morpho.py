@@ -63,6 +63,7 @@ class TST_OpMorpho(unittest.TestCase):
         print("setup")
         
         soPath = "../target/debug/libeds_cv_lib_morpho.so"
+        # soPath = "../../build/libeds_cv_lib_staging.so"
         
         self.ffi = None
         self.ffi = cffi.FFI()
