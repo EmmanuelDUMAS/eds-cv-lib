@@ -1,0 +1,54 @@
+# .gitignore
+# -----------------------------------------------------------------------------
+# .gitignore for images/testimages.org/SAMPLING/8BIT/RGB/2448x2448/SRC
+# -----------------------------------------------------------------------------
+# History
+# 14/11/2020 Creation ................................................ E. Dumas
+# -----------------------------------------------------------------------------
+
+.gitignore~
+
+# file to ignore
+
+img_2448x2448_3x8bit_SRC_RGB_almonds.png
+img_2448x2448_3x8bit_SRC_RGB_apples.png
+img_2448x2448_3x8bit_SRC_RGB_baloons.png
+img_2448x2448_3x8bit_SRC_RGB_bananas.png
+img_2448x2448_3x8bit_SRC_RGB_billiard_balls_a.png
+img_2448x2448_3x8bit_SRC_RGB_billiard_balls_b.png
+img_2448x2448_3x8bit_SRC_RGB_building.png
+img_2448x2448_3x8bit_SRC_RGB_cards_b.png
+img_2448x2448_3x8bit_SRC_RGB_carrots.png
+img_2448x2448_3x8bit_SRC_RGB_chairs.png
+img_2448x2448_3x8bit_SRC_RGB_clips.png
+img_2448x2448_3x8bit_SRC_RGB_coins.png
+img_2448x2448_3x8bit_SRC_RGB_cushions.png
+img_2448x2448_3x8bit_SRC_RGB_ducks.png
+img_2448x2448_3x8bit_SRC_RGB_fence.png
+img_2448x2448_3x8bit_SRC_RGB_flowers.png
+img_2448x2448_3x8bit_SRC_RGB_garden_table.png
+img_2448x2448_3x8bit_SRC_RGB_guitar_bridge.png
+img_2448x2448_3x8bit_SRC_RGB_guitar_fret.png
+img_2448x2448_3x8bit_SRC_RGB_guitar_head.png
+img_2448x2448_3x8bit_SRC_RGB_keyboard_a.png
+img_2448x2448_3x8bit_SRC_RGB_keyboard_b.png
+img_2448x2448_3x8bit_SRC_RGB_lion.png
+img_2448x2448_3x8bit_SRC_RGB_multimeter.png
+img_2448x2448_3x8bit_SRC_RGB_pencils_a.png
+img_2448x2448_3x8bit_SRC_RGB_pencils_b.png
+img_2448x2448_3x8bit_SRC_RGB_pillar.png
+img_2448x2448_3x8bit_SRC_RGB_plastic.png
+img_2448x2448_3x8bit_SRC_RGB_roof.png
+img_2448x2448_3x8bit_SRC_RGB_scarf.png
+img_2448x2448_3x8bit_SRC_RGB_screws.png
+img_2448x2448_3x8bit_SRC_RGB_snails.png
+img_2448x2448_3x8bit_SRC_RGB_socks.png
+img_2448x2448_3x8bit_SRC_RGB_sweets.png
+img_2448x2448_3x8bit_SRC_RGB_tomatoes_a.png
+img_2448x2448_3x8bit_SRC_RGB_tomatoes_b.png
+img_2448x2448_3x8bit_SRC_RGB_tools_a.png
+img_2448x2448_3x8bit_SRC_RGB_tools_b.png
+img_2448x2448_3x8bit_SRC_RGB_wood_game.png
+
+
+# end of file
