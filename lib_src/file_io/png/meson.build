@@ -35,4 +35,6 @@ edsCvLibFileIOSources += [
     files('ecv_png_load_header.rs'),
 ]
 
+# subdir('example_in_c')
+
 # end of file
