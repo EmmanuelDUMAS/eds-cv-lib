@@ -1,6 +1,6 @@
-# meson.build for eds-cv-lib/lib_src
+# meson.build for eds-cv-lib/file_io
 # -------------------------------------------------------
-# Copyright (c) 2020-2021, Emmanuel DUMAS
+# Copyright (c) 2021, Emmanuel DUMAS
 # All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,33 +25,24 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-# Meson build file for project eds-cv-lib - top file
+# Meson build file for staging/eds/op_morpho
 # -----------------------------------------------------------------------------
-# 22/11/2020 Creation ................................................ E. Dumas
-# 30/12/2020 Debug for old version of meson .......................... E. Dumas
-# 13/01/2021 Add subdir file_io ...................................... E. Dumas
+# 02/01/2021 Creation ................................................ E. Dumas
 # -----------------------------------------------------------------------------
 
 
-project(
-    'eds-cv-lib',
-    ['c', 'rust'],
-    version : '0.1',
-)
+edsCvLibFileIOSources = []
 
-eds_cv_lib_version = '0.1'
+subdir('png')
 
-edsCvLibSources = []
-
-subdir('file_io')
-subdir('img_op')
-
-library(
-    'eds_cv_lib',
-    edsCvLibSources,
+edsCvLibFileIO = library(
+    'ecv_file_io',
+    edsCvLibFileIOSources,
     include_directories : include_directories('.'),
-    version : eds_cv_lib_version,
+    rust_crate_type : 'cdylib',
     install : true,
 )
+
+subdir('png/example_in_c')
 
 # end of file

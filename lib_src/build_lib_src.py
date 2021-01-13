@@ -2,7 +2,7 @@
 # build_lib_src.py
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------
-# Copyright (c) 2020, Emmanuel DUMAS
+# Copyright (c) 2020-2021, Emmanuel DUMAS
 # All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -31,6 +31,7 @@
 # -----------------------------------------------------------------------------
 # 22/11/2020 Creation ................................................ E. Dumas
 # 30/12/2020 Improve error code ...................................... E. Dumas
+# 13/01/2021 Hack for mixing C and Rust .............................. E. Dumas
 # -----------------------------------------------------------------------------
 
 import os
@@ -40,6 +41,13 @@ if __name__ == "__main__":
     buildDir = "../lib_build"
     if os.path.isdir(buildDir) is False:
         os.makedirs(buildDir)
+    
+    # HACK EDS 03/02/2021
+    # Today, I haven't found better for compiling mix C/Rust
+    home = os.getenv("HOME", ".")
+    print("home=", home)
+    os.putenv("LD_LIBRARY_PATH", home + "/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib")
+    os.environ["LD_LIBRARY_PATH"] = home + "/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib"
     
     subprocess.run(["meson", "../lib_src"], cwd=buildDir). check_returncode()
     subprocess.run(["ninja"], cwd=buildDir). check_returncode()

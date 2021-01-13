@@ -1,6 +1,6 @@
-# meson.build for eds-cv-lib/lib_src
+# meson.build for eds-cv-lib/lib_src/file_io_png_example_in_c
 # -------------------------------------------------------
-# Copyright (c) 2020-2021, Emmanuel DUMAS
+# Copyright (c) 2021, Emmanuel DUMAS
 # All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,33 +25,34 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-# Meson build file for project eds-cv-lib - top file
+# Meson build file for project eds-cv-lib
+# lib_src/file_io/png/example_in_c
 # -----------------------------------------------------------------------------
-# 22/11/2020 Creation ................................................ E. Dumas
-# 30/12/2020 Debug for old version of meson .......................... E. Dumas
-# 13/01/2021 Add subdir file_io ...................................... E. Dumas
+# 03/02/2021 Creation ................................................ E. Dumas
 # -----------------------------------------------------------------------------
 
 
-project(
-    'eds-cv-lib',
-    ['c', 'rust'],
-    version : '0.1',
-)
+# asStandalone = get_option('asStandalone')
+# if asStandalone == true
+#  project(
+#    'eds-cv-lib-png-example-in-c',
+#    ['c', 'rust'],
+#    version : '0.1',
+# )
+# endif
 
-eds_cv_lib_version = '0.1'
+ecv_lib__png_example_in_c_version = '0.1'
 
-edsCvLibSources = []
+edsLibPngExampleInCSources = [ 'ecv_png_load_header_ex_1.c', ]
 
-subdir('file_io')
-subdir('img_op')
+# env = environment()
+# env.prepend('LD_LIBRARY_PATH', 'home/manu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib')
 
-library(
-    'eds_cv_lib',
-    edsCvLibSources,
-    include_directories : include_directories('.'),
-    version : eds_cv_lib_version,
-    install : true,
+executable(
+    'ecv_png_load_header_ex_1.exe',
+    edsLibPngExampleInCSources,
+    link_with : edsCvLibFileIO,
+    build_rpath : 'home/manu/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib'
 )
 
 # end of file
