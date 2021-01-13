@@ -1,6 +1,6 @@
 # meson.build for eds-cv-lib/lib_src
 # -------------------------------------------------------
-# Copyright (c) 2020, Emmanuel DUMAS
+# Copyright (c) 2020-2021, Emmanuel DUMAS
 # All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -29,6 +29,7 @@
 # -----------------------------------------------------------------------------
 # 22/11/2020 Creation ................................................ E. Dumas
 # 30/12/2020 Debug for old version of meson .......................... E. Dumas
+# 13/01/2021 Add subdir file_io ...................................... E. Dumas
 # -----------------------------------------------------------------------------
 
 
@@ -42,6 +43,7 @@ eds_cv_lib_version = '0.1'
 
 edsCvLibSources = []
 
+subdir('file_io')
 subdir('img_op')
 
 library(
