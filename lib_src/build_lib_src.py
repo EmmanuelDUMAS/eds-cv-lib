@@ -2,8 +2,11 @@
 # build_lib_src.py
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------
+# BSD 3-Clause License
+#
 # Copyright (c) 2020-2021, Emmanuel DUMAS
 # All rights reserved.
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #
@@ -32,16 +35,17 @@
 # 22/11/2020 Creation ................................................ E. Dumas
 # 30/12/2020 Improve error code ...................................... E. Dumas
 # 13/01/2021 Hack for mixing C and Rust .............................. E. Dumas
+# 25/01/2021 Can use CMake now ....................................... E. Dumas
 # -----------------------------------------------------------------------------
 
 import os
 import subprocess
 
-if __name__ == "__main__":
-    buildDir = "../lib_build"
-    if os.path.isdir(buildDir) is False:
-        os.makedirs(buildDir)
-    
+
+def buildWithMeson():
+    """Build with Meson Build
+    22/11/2020 Creation E. Dumas
+    """
     # HACK EDS 03/02/2021
     # Today, I haven't found better for compiling mix C/Rust
     home = os.getenv("HOME", ".")
@@ -53,4 +57,20 @@ if __name__ == "__main__":
     subprocess.run(["ninja"], cwd=buildDir). check_returncode()
     
 
+def buildWidthCMake():
+    """Build with CMake
+    18/01/2021 Creation E. Dumas
+    """
+    subprocess.run(["cmake", "../lib_src"], cwd=buildDir). check_returncode()
+    subprocess.run(["cmake", "--build", "."], cwd=buildDir). check_returncode()
+    
+
+if __name__ == "__main__":
+    buildDir = "../lib_build"
+    if os.path.isdir(buildDir) is False:
+        os.makedirs(buildDir)
+    
+    # buildWithMeson()
+    buildWidthCMake()
+    
 # end of file
