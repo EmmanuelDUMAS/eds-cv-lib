@@ -1,10 +1,7 @@
 # CMakeList.txt
 # lib_src/img_op
 
-list(APPEND eds_cv_lib_sources 
-    ${CMAKE_CURRENT_SOURCE_DIR}/morphology/dilate/ecv_dilate_3x3_u8.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/morphology/dilate/ecv_dilate_3x3_u16.c
-)
+add_subdirectory(morphology)
 
 # tips for move from local scope to parent scope
 set(eds_cv_lib_sources "${eds_cv_lib_sources}" PARENT_SCOPE)
