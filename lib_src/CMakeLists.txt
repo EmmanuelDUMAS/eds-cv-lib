@@ -1,4 +1,9 @@
 # CMakeList.txt
+# lib_src/
+# ----------------------------------------------------------
+# history
+# 25/01/2021 First quit operational version ....... E. Dumas
+# ----------------------------------------------------------
 
 # I prefer :
 # export CMAKE_GENERATOR=Ninja
@@ -27,19 +32,19 @@ ExternalProject_Add(
     INSTALL_COMMAND ""
     LOG_BUILD ON)
 
+add_subdirectory(img_op)
 
-add_library(eds_cv_lib SHARED
-    # file_io/png/ecv_png_load_headers.rs
-    img_op/morphology/dilate/ecv_dilate_3x3_u8.c
-)
+message(STATUS "eds_cv_lib_sources - C Files - " ${eds_cv_lib_sources})
+
+add_library(eds_cv_lib SHARED ${eds_cv_lib_sources} )
 
 # Create dependency of eds_cv_lib on rust_lib
 add_dependencies(eds_cv_lib eds_cv_lib_rust)
 
 # Specify Example's link libraries
 target_link_libraries(eds_cv_lib
-    debug "${CMAKE_SOURCE_DIR}/common-rust/target/debug/libeds_cv_lib_rust.a"
-    optimized "${CMAKE_SOURCE_DIR}/common-rust/target/release/libeds_cv_lib_rust.a"
+    debug "${CMAKE_SOURCE_DIR}/target/debug/libeds_cv_lib_rust.a"
+    optimized "${CMAKE_SOURCE_DIR}/target/release/libeds_cv_lib_rust.a"
     # ws2_32 userenv advapi32
 )
 
