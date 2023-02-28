@@ -2,7 +2,7 @@
 # tst_png_load_header.py
 # -*- coding: utf-8 -*-
 # -----------------------------------------------------------------------------
-# Copyright (c) 2021, Emmanuel DUMAS
+# Copyright (c) 2021-2023, Emmanuel DUMAS
 # All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -27,10 +27,11 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-# Template file for EDS-CV-Lib Project - test file
+# test file for ecv_png_load_header.rs
 # -----------------------------------------------------------------------------
 # History
-# 19/10/2020 Creation ................................................ E. Dumas
+# 19/10/2020 E. Dumas : creation
+# 28/02/2023 E. Dumas : reactive test_Dataset_02
 # -----------------------------------------------------------------------------
 
 # native python import
@@ -53,16 +54,16 @@ import cffi
 # -----------------------------------------------------------------------------
 class TST_PNG_LoadHeader(unittest.TestCase):
     """Test load header functions
-    02/01/2021 Creation .............................................. E. Dumas
+    02/01/2021 E. Dumas : creation
     """
     
     def setUp(self):
         """
-        02/01/2021 Creation .......................................... E. Dumas
+        02/01/2021 E. Dumas : creation
         """
         print("setup")
         
-        soPath = "../../../lib_build/file_io/libecv_file_io.so"
+        soPath = "../../../../lib_build/file_io/libecv_file_io.so"
         
         if os.path.isfile(soPath) is False:
             Exception("file '%s' not found" % soPath)
@@ -75,19 +76,19 @@ class TST_PNG_LoadHeader(unittest.TestCase):
     
     def tearDown(self):
         """
-        02/01/2021 Creation .......................................... E. Dumas
+        02/01/2021 E. Dumas : creation
         """
         print("tearDown")
     
     def commonPart(self):
         """
-        19/10/2020 Creation .......................................... E. Dumas
+        19/10/2020 E. Dumas : creation
         """
         print("common part")
     
     def test_Dataset_01(self):
         """call test with data set 01 : ...
-        19/10/2020 Creation .......................................... E. Dumas
+        19/10/2020 E. Dumas : creation
         """
         print("test Dataset 01")
         
@@ -98,7 +99,7 @@ class TST_PNG_LoadHeader(unittest.TestCase):
     
     def test_Dataset_02(self):
         """call test with data set 02 : ...
-        19/10/2020 Creation .......................................... E. Dumas
+        19/10/2020 E. Dumas : creation
         """
         print("test Dataset 02")
         
@@ -109,7 +110,7 @@ class TST_PNG_LoadHeader(unittest.TestCase):
         """)
         
         ret = self.lib.ECV_PNG_LoadHeader()
-        self.assertNotEqual(ret, 0)
+        self.assertEqual(ret, 0)
     
 
 # -----------------------------------------------------------------------------
@@ -121,7 +122,7 @@ def TST_TestSuite_PNG_LoadHeader(testSuite, oneByOne=False):
     """
     allTests = (
         "test_Dataset_01",
-        # "test_Dataset_02",
+        "test_Dataset_02",
     )
     
     if oneByOne is True:
