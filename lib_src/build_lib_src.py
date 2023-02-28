@@ -2,7 +2,7 @@
 # build_lib_src.py
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------
-# Copyright (c) 2020-2021, Emmanuel DUMAS
+# Copyright (c) 2020-2023, Emmanuel DUMAS
 # All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -29,9 +29,10 @@
 # -----------------------------------------------------------------------------
 # Standard lib build
 # -----------------------------------------------------------------------------
-# 22/11/2020 Creation ................................................ E. Dumas
-# 30/12/2020 Improve error code ...................................... E. Dumas
-# 13/01/2021 Hack for mixing C and Rust .............................. E. Dumas
+# 22/11/2020 E. Dumas : creation
+# 30/12/2020 E. Dumas : improve error code
+# 13/01/2021 E. Dumas : hack for mixing C and Rust
+# 28/02/2023 E. Dumas : minor review
 # -----------------------------------------------------------------------------
 
 import os
