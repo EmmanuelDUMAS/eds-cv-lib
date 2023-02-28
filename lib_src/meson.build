@@ -1,6 +1,6 @@
 # meson.build for eds-cv-lib/lib_src
 # -------------------------------------------------------
-# Copyright (c) 2020-2021, Emmanuel DUMAS
+# Copyright (c) 2020-2023, Emmanuel DUMAS
 # All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -27,9 +27,10 @@
 # -----------------------------------------------------------------------------
 # Meson build file for project eds-cv-lib - top file
 # -----------------------------------------------------------------------------
-# 22/11/2020 Creation ................................................ E. Dumas
-# 30/12/2020 Debug for old version of meson .......................... E. Dumas
-# 13/01/2021 Add subdir file_io ...................................... E. Dumas
+# 22/11/2020 E. Dumas : creation
+# 30/12/2020 E. Dumas : debug for old version of meson
+# 13/01/2021 E. Dumas : add subdir file_io
+# 28/02/2023 E. Dumas : minor review
 # -----------------------------------------------------------------------------
 
 
