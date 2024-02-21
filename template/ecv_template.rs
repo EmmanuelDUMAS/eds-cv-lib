@@ -1,6 +1,6 @@
 // ecv_template.rs
 // ----------------------------------------------------------------------------
-// Copyright (c) 2020-2021, Emmanuel DUMAS
+// Copyright (c) 2020-2024, Emmanuel DUMAS
 // All rights reserved.
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,8 @@
 // Template for new file
 // ----------------------------------------------------------------------------
 // History
-// 31/12/2020 Creation ............................................... E. Dumas
+// 31/12/2020 E. Dumas : creation
+// 21/02/2024 E. Dumas : review presentation
 // ----------------------------------------------------------------------------
 
 #![allow(non_snake_case)]

@@ -1,7 +1,7 @@
 # eds_template.py
 # -*- coding: utf-8 -*-
 # -------------------------------------------------------
-# Copyright (c) 2020-2021, Emmanuel DUMAS
+# Copyright (c) 2020-2024, Emmanuel DUMAS
 # All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,8 @@
 #    develop in javascript / html
 #
 # -----------------------------------------------------------------------------
-# 15/10/2020 Creation ................................................ E. Dumas
+# 15/10/2020 E. Dumas : creation
+# 21/02/2024 E. Dumas : review presentation
 # -----------------------------------------------------------------------------
 
 import argparse
@@ -40,12 +41,12 @@ import argparse
 
 class EDS_Template():
     """Template for new class
-    19/10/2020 Creation
+    19/10/2020 E. Dumas : creation
     """
     
     def __init__(self):
         """
-        19/10/2020 Creation
+        19/10/2020 E. Dumas : creation
         """
         self.i = 0
 

@@ -1,6 +1,6 @@
 /* ecv_template.h
- * -----------------------------------------------------------------------------
- * Copyright (c) 2020-2021, Emmanuel DUMAS
+ * ----------------------------------------------------------------------------
+ * Copyright (c) 2020-2024, Emmanuel DUMAS
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -22,12 +22,13 @@
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * -----------------------------------------------------------------------------
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ----------------------------------------------------------------------------
  * history
- * 22/11/2020 Creation ................................................ E. Dumas
- * -----------------------------------------------------------------------------
+ * 22/11/2020 E. Dumas : creation
+ * 21/02/2024 E. Dumas : review presentation
+ * ----------------------------------------------------------------------------
  */
 
 #ifndef _ECV_TEMPLATE_H_
